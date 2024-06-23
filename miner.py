@@ -1,6 +1,6 @@
 import json, time, hashlib
-import socket, sys, json
-#import select
+import socket, json
+#import select, sys
 
 #sys.path.append('../')
 from config import CONFIG
