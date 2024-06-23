@@ -29,20 +29,28 @@ size = json.loads(client.recv(1024).decode())['data']['size']
 halvings = size // 120_000
 reward = 50 / (2 ** halvings)
 
+def compute_fees(txs):
+    fees = 0
+    for tx in txs:
+        fees += tx['fee']
+    return fees
+
+client.sendall(Packet(Packet.GETMEM, {"highfee": True, "limit": 5}).encode())
+memTxs = json.loads(client.recv(1024 * 8).decode())['data']
+
 rewardTx = {
     "txid": size,
     "timestamp": round(time.time()),
-    "amount": reward,
+    "amount": reward + compute_fees(memTxs),
     "fee": 0.0,
     "key": CONFIG['wallet'][:25],
     "recipient": CONFIG['wallet'],
     "sender": "Block Reward",
 }
 
-client.sendall(Packet(Packet.GETMEM, {"highfee": True, "limit": 5}).encode())
-
 txs = [rewardTx]
-txs.extend(json.loads(client.recv(1024 * 8).decode())['data'])
+txs.extend(memTxs)
+
 client.sendall(Packet(Packet.GETCHAIN, {"limit": 1}).encode())
 prev = json.loads(client.recv(1024 * 8).decode())['data'][0]
 prev_hash = hashlib.sha256(
@@ -64,6 +72,8 @@ while pof < limit:
     #            break
 
     block_data = calculate_block(pof, prev_hash, txs)
+    if pof % 500000 == 0:
+        print(f"Calculated {pof:,} Hashes")
 
     if hashlib.sha256(block_data.encode()).hexdigest().startswith(req):
         print(f"Mined block #{size}")
