@@ -1,5 +1,4 @@
 import socket, sys
-sys.path.append('../')
 from config import CONFIG
 from packet import Packet
 
