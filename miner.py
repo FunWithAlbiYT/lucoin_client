@@ -4,7 +4,8 @@ import socket, json
 
 #sys.path.append('../')
 from config import CONFIG
-from client.packet import Packet#, PTracker
+from packet import Packet
+#, PTracker
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect((CONFIG['url'], CONFIG['port']))
