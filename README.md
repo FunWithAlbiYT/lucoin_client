@@ -62,12 +62,3 @@ All responses from the client are in JSON format.
 
 ## Updates
 Check for client updates periodically and update to the latest version.
-
-## Contribution
-Contributions are welcome! Please submit a pull request or open an issue to discuss any changes.
-
-## License
-This project is licensed under the MIT License.
-
-## Contact
-For more information, please visit the project's repository or contact the maintainer at your-email@example.com.
