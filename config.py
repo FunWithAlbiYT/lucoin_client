@@ -1,7 +1,7 @@
 CONFIG = {}
 
-CONFIG['url'] = "lucoin.alyocord.xyz"
-CONFIG['port'] = 19731
+CONFIG['url'] = "network.lucoin.pro"
+CONFIG['port'] = 3001
 
 CONFIG['key'] = ""
 CONFIG['wallet'] = ""
