@@ -10,5 +10,7 @@ CONFIG['wallet'] = ""
 CONFIG['fee'] = 0.05 # %
 CONFIG['socket_timeout'] = 3000 # ms
 
-CONFIG["num_workers"] = cpu_count() # cores
+# miner
+CONFIG["dedicated_mode"] = True # set this to false if you don't want your pc to lag while mining,
+                            # set to true if you are afk mining.
 CONFIG["debug_mode"] = False
