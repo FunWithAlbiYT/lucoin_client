@@ -25,7 +25,7 @@ def worker(start, step, base, req, q):
 
     while True:
         if pof % 1000000 == 0:
-            print(f"Calculated {pof:,} Hashes")
+            print(f"\033[0;34;40mCalculated \033[1;32;40m {pof:,} \033[0;34;40m  Hashes \033[1;37;40m ... ")
         block_data = str(pof) + base
         hash = hashlib.sha256(block_data.encode()).hexdigest()
 
@@ -93,7 +93,7 @@ def init_miner(num_workers):
 
     if mined is not None:
         end = time.time()
-        print(f"Mined block #{size} with pof={mined} in {end - start:.2f}s")
+        print(f"\033[0;31;42mMined block \033[1;37;40m:: \033[1;32;40m#{size} \033[0;37;40mwith \033[1;32;40mpof={mined} \033[0;37;40min \033[1;32;40m{end - start:.2fs}")
         client.sendall(Packet(Packet.BROADCAST, {
             "txs": txs,
             "pof": mined
@@ -103,7 +103,7 @@ def init_miner(num_workers):
         if CONFIG["debug_mode"]:
             print(res)
     else:
-        print(f"Failed to mine a block within 2^32+1 hashes.")#
+        print(f"\033[1;;41mFailed to mine a block within 2^32+1 hashes.\033[1;37;40m")
 
 def miner_loop(num_workers):
     while True:
