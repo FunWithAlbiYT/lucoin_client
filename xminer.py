@@ -95,7 +95,7 @@ def init_miner(num_workers):
 
     if mined is not None:
         end = time.time()
-        print(f"{Fore.RED}{Back.GREEN} Mined block {Fore.WHITE}{Back.BLACK}:: {Fore.GREEN} #{size} {Fore.WHITE}with pof={mined} in {Fore.GREEN}{end - start:.2fs}")
+        print(f"{Fore.RED}{Back.GREEN} Mined block {Fore.WHITE}{Back.BLACK}:: {Fore.GREEN} #{size} {Fore.WHITE}with pof={mined} in {Fore.GREEN}{round(end - start)}s")
         client.sendall(Packet(Packet.BROADCAST, {
             "txs": txs,
             "pof": mined
