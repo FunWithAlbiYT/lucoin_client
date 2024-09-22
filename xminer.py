@@ -1,5 +1,7 @@
 import json, time, hashlib
 import socket, json
+from colorama import Fore, Back, Style, init
+init()
 
 from multiprocessing import *
 
@@ -25,7 +27,7 @@ def worker(start, step, base, req, q):
 
     while True:
         if pof % 1000000 == 0:
-            print(f"Calculated {pof:,} Hashes")
+            print(f"{Fore.LIGHTBLUE_EX} Calculated: {Fore.LIGHTGREEN_EX}{pof:,} {Fore.WHITE} Hashes {Fore.WHITE}...")
         block_data = str(pof) + base
         hash = hashlib.sha256(block_data.encode()).hexdigest()
 
@@ -93,7 +95,7 @@ def init_miner(num_workers):
 
     if mined is not None:
         end = time.time()
-        print(f"Mined block #{size} with pof={mined} in {end - start:.2f}s")
+        print(f"{Fore.RED}{Back.GREEN} Mined block {Fore.WHITE}{Back.BLACK}:: {Fore.GREEN} #{size} {Fore.WHITE}with pof={mined} in {Fore.GREEN}{end - start:.2fs}")
         client.sendall(Packet(Packet.BROADCAST, {
             "txs": txs,
             "pof": mined
@@ -103,7 +105,7 @@ def init_miner(num_workers):
         if CONFIG["debug_mode"]:
             print(res)
     else:
-        print(f"Failed to mine a block within 2^32+1 hashes.")#
+        print(f"{Style.BRIGHT}{Fore.WHITE}{Back.RED} Failed to mine a block within 2^32+1 hashes.{Back.BLACK}")
 
 def miner_loop(num_workers):
     while True:
