@@ -115,4 +115,4 @@ def miner_loop(num_workers):
 if __name__ == "__main__":
     freeze_support()
 
-    miner_loop(CONFIG["num_workers"])
+    miner_loop(cpu_count() if CONFIG["dedicated_mode"] else int(cpu_count() / 4))
