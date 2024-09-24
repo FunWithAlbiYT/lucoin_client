@@ -50,8 +50,11 @@ python client.py mempool
 To mine a new block:
 
 ```bash
-python miner.py
+python xminer.py
 ```
+
+Please note that mining is very unpredictable - sometimes it will be done in a few hundred million hashes, other times it could take upwards of 15 billion hashes.
+
 ## Responses
 All responses from the client are in JSON format.
 
