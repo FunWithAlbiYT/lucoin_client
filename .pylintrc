@@ -4,4 +4,4 @@
 
 [MESSAGES CONTROL]
 
-disable=missing-docstring
+disable=missing-docstring,too-few-public-methods
