@@ -6,6 +6,7 @@ Lucoin Client is a command-line tool for interacting with the Lucoin cryptocurre
 
 ## Installation
 Install Python 3.10. You can download it from [here](https://www.python.org/ftp/python/3.10.0/python-3.10.0-amd64.exe) for Windows and [here](https://www.python.org/ftp/python/3.10.0/python-3.10.0post2-macos11.pkg) for macOS.\
+Make sure to select `Add Python to PATH` in the installer!\
 (if you're using Linux you probably know what you're doing...)\
 Head to the [release page](https://github.com/FunWithAlbiYT/lucoin_client/releases/tag/Universal) and download the `install.py` artefact. Download it to wherever you'd like to install the Lucoin Client.\
 Finally, run install.py and it'll install everything for you.\
