@@ -15,6 +15,8 @@ from packet import Packet
 
 if system() == "Windows":
     import threading
+
+    # pylint: disable-next=import-error
     import msvcrt
 else:
     import select
@@ -59,6 +61,7 @@ def read_input(default, timeout=5):
 
         return result
 
+    # pylint: disable-next=
     i, _, _ = select.select([sys.stdin], [], [], timeout)
 
     return i
