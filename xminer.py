@@ -183,7 +183,8 @@ def miner_loop(num_workers):
         init_miner(num_workers, i)
 
 if __name__ == "__main__":
-    freeze_support()
+    if system() == "Windows":
+        freeze_support() # required on Windows
     colorama.init(autoreset=True)
 
     miner_loop(cpu_count() if CONFIG["dedicated_mode"] else int(cpu_count() / 4))
