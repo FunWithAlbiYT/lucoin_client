@@ -161,9 +161,9 @@ def init_miner(num_workers, iteration):
         string = f"{colorama.Fore.BLUE}Mined block #{colorama.Fore.WHITE}{size}{colorama.Fore.BLUE}!\n POF/PoW: {colorama.Fore.WHITE}{mined}{colorama.Fore.BLUE}\nTime Taken: {colorama.Fore.WHITE}{end - start:.2f}s{colorama.Fore.BLUE}\nWorker: {colorama.Fore.WHITE}{worker_id}"
         coloured_bar = f"{colorama.Back.GREEN}{' ' * len(string)}"
         print(coloured_bar)
-        print("\n")
+        print("")
         print(string)
-        print("\n")
+        print("")
         print(coloured_bar)
         client.sendall(Packet(Packet.BROADCAST, {
             "txs": txs,
