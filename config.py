@@ -1,5 +1,3 @@
-from multiprocessing import cpu_count
-
 CONFIG = {}
 
 CONFIG['url'] = "network.lucoin.pro"
