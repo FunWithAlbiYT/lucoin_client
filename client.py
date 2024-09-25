@@ -1,4 +1,5 @@
-import socket, sys
+import socket
+import sys
 from config import CONFIG
 from packet import Packet
 

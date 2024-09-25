@@ -1,0 +1,7 @@
+[MASTER]
+
+# empty
+
+[MESSAGES CONTROL]
+
+disable=missing-docstring,too-few-public-methods,too-many-locals,too-many-arguments

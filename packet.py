@@ -21,7 +21,7 @@ class Packet:
             "type": self.type,
             "data": self.data
         }).encode()
-    
+
 class PTracker:
     TRANSACTION = 50
     NEWBLOCK = 51
