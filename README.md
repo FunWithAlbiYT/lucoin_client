@@ -5,17 +5,12 @@
 Lucoin Client is a command-line tool for interacting with the Lucoin cryptocurrency. It allows users to check balances, send transactions, retrieve blockchain data, and more.
 
 ## Installation
+Install Python 3.10. You can download it from [here](https://www.python.org/ftp/python/3.10.0/python-3.10.0-amd64.exe) for Windows and [here](https://www.python.org/ftp/python/3.10.0/python-3.10.0post2-macos11.pkg) for macOS.\
+Make sure to select `Add Python to PATH` in the installer!\
+Head to the [release page](https://github.com/FunWithAlbiYT/lucoin_client/releases/tag/Universal) and download the `install.py` artefact. Download it to wherever you'd like to install the Lucoin Client.\
+Finally, run install.py and it'll install everything for you.
 
-Clone the repository:
-```bash
-git clone https://github.com/FunWithAlbiYT/lucoin-client.git
-```
-Navigate to the project directory:
-```bash
-cd lucoin-client
-```
-Install any necessary dependencies (if applicable).
-Configuration
+## Configuration
 Edit the config.py file to configure your information, fees, and other settings.
 
 ## Usage
@@ -55,8 +50,11 @@ python client.py mempool
 To mine a new block:
 
 ```bash
-python miner.py
+python xminer.py
 ```
+
+Please note that mining is very unpredictable - sometimes it will be done in a few hundred million hashes, other times it could take upwards of 15 billion hashes.
+
 ## Responses
 All responses from the client are in JSON format.
 
