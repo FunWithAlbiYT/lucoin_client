@@ -176,8 +176,9 @@ def init_miner(num_workers, iteration):
             print(res)
 
         if res.get("code", None) is None:
-            # pylint: disable-next=line-too-long
-            notifier.send(title="Block mined!", message=f"Block #{size} has been mined successfully!", icon=lucoin_icon)
+            if CONFIG["send_notifications"]:
+                # pylint: disable-next=line-too-long
+                notifier.send(title="Block mined!", message=f"Block #{size} has been mined successfully!", icon=lucoin_icon)
             # pylint: disable-next=line-too-long
             string = f"{colorama.Fore.BLUE}Mined block #{colorama.Fore.WHITE}{size}{colorama.Fore.BLUE}!\n POF/PoW: {colorama.Fore.WHITE}{mined}{colorama.Fore.BLUE}\nTime Taken: {colorama.Fore.WHITE}{end - start:.2f}s{colorama.Fore.BLUE}\nWorker: {colorama.Fore.WHITE}{worker_id}"
             coloured_bar = f"{colorama.Back.GREEN}{' ' * len(string)}"
@@ -189,8 +190,9 @@ def init_miner(num_workers, iteration):
             print(coloured_bar)
             print("")
         else:
-            # pylint: disable-next=line-too-long
-            notifier.send(title="Invalid block found...", message=f"Block #{size} was mined, however was found to be invalid.", icon=lucoin_icon)
+            if CONFIG["send_notifications"]:
+                # pylint: disable-next=line-too-long
+                notifier.send(title="Invalid block found...", message=f"Block #{size} was mined, however was found to be invalid.", icon=lucoin_icon)
             string = f"{colorama.Fore.BLUE}Block #{colorama.Fore.WHITE}{size} is invalid!"
             coloured_bar = f"{colorama.Back.RED}{' ' * len(string)}"
             print("")

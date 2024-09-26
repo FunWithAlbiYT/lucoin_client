@@ -4,4 +4,4 @@
 
 [MESSAGES CONTROL]
 
-disable=missing-docstring,too-few-public-methods,too-many-locals,too-many-arguments
+disable=missing-docstring,too-few-public-methods,too-many-locals,too-many-arguments,too-many-statements
