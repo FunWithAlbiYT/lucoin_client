@@ -158,10 +158,6 @@ cython_debug/
 # REPO SPECIFIC #
 #################
 
-colorama_test.py
-miner_mp.py
-stock_miner.py
-test.py
-miner.py
-
 installation/
+
+./config.py

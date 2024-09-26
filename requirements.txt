@@ -1,1 +1,2 @@
 colorama>=0.4.6
+desktop-notifier>=6.0.0

@@ -2,6 +2,8 @@ from multiprocessing import Process, Queue, freeze_support, cpu_count
 
 from datetime import datetime
 from platform import system
+from pathlib import Path
+from os import path
 
 import json
 import time
@@ -9,6 +11,7 @@ import hashlib
 import socket
 
 import colorama
+from desktop_notifier import DesktopNotifierSync, Icon
 
 from config import CONFIG
 from packet import Packet
@@ -21,6 +24,9 @@ if system() == "Windows":
 else:
     import select
     import sys
+
+lucoin_icon = Icon(Path(path.abspath("./resources/lucoin.ico")))
+notifier = DesktopNotifierSync("XMiner - Lucoin", lucoin_icon)
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect((CONFIG['url'], CONFIG['port']))
@@ -42,7 +48,7 @@ def read_input(default, timeout=5):
                         if ord(char) == 13:
                             break
                         if ord(char) >= 32:
-                            self.input += chr
+                            self.input += char
 
                     if len(self.input) == 0 and self.timedout:
                         break
@@ -61,7 +67,6 @@ def read_input(default, timeout=5):
 
         return result
 
-    # pylint: disable-next=
     i, _, _ = select.select([sys.stdin], [], [], timeout)
 
     return i
@@ -116,16 +121,17 @@ def init_miner(num_workers, iteration):
 
     start = time.time()
 
-    # pylint: disable-next=line-too-long
-    print(f"Starting miner at {datetime.fromtimestamp(start).strftime('%H:%M:%S on %A')} with starting pof {starting_pof} - Iteration #{iteration}")
-
     client.sendall(Packet(Packet.GETSIZE, {}).encode())
 
     size = json.loads(client.recv(1024).decode())['data']
-
     if CONFIG["debug_mode"]:
         print(size)
+
     size = size["size"]
+
+    # pylint: disable-next=line-too-long
+    print(f"Starting miner at {datetime.fromtimestamp(start).strftime('%H:%M:%S on %A')} with starting PoW {starting_pof} - Mining block #{size} - Iteration #{iteration}")
+
     halvings = size // 120_000
     reward = 50 / (2 ** halvings)
 
@@ -160,23 +166,42 @@ def init_miner(num_workers, iteration):
     if mined is not None:
         end = time.time()
 
-        # pylint: disable-next=line-too-long
-        string = f"{colorama.Fore.BLUE}Mined block #{colorama.Fore.WHITE}{size}{colorama.Fore.BLUE}!\n POF/PoW: {colorama.Fore.WHITE}{mined}{colorama.Fore.BLUE}\nTime Taken: {colorama.Fore.WHITE}{end - start:.2f}s{colorama.Fore.BLUE}\nWorker: {colorama.Fore.WHITE}{worker_id}"
-        coloured_bar = f"{colorama.Back.GREEN}{' ' * len(string)}"
-        print(coloured_bar)
-        print("")
-        print(string)
-        print("")
-        print(coloured_bar)
         client.sendall(Packet(Packet.BROADCAST, {
             "txs": txs,
             "pof": mined
         }).encode())
 
-        res = client.recv(1024).decode()
+        res = json.loads(client.recv(1024).decode())
         if CONFIG["debug_mode"]:
             print(res)
+
+        if res.get("code", None) is None:
+            # pylint: disable-next=line-too-long
+            notifier.send(title="Block mined!", message=f"Block #{size} has been mined successfully!", icon=lucoin_icon)
+            # pylint: disable-next=line-too-long
+            string = f"{colorama.Fore.BLUE}Mined block #{colorama.Fore.WHITE}{size}{colorama.Fore.BLUE}!\n POF/PoW: {colorama.Fore.WHITE}{mined}{colorama.Fore.BLUE}\nTime Taken: {colorama.Fore.WHITE}{end - start:.2f}s{colorama.Fore.BLUE}\nWorker: {colorama.Fore.WHITE}{worker_id}"
+            coloured_bar = f"{colorama.Back.GREEN}{' ' * len(string)}"
+            print("")
+            print(coloured_bar)
+            print("")
+            print(string)
+            print("")
+            print(coloured_bar)
+            print("")
+        else:
+            # pylint: disable-next=line-too-long
+            notifier.send(title="Invalid block found...", message=f"Block #{size} was mined, however was found to be invalid.", icon=lucoin_icon)
+            string = f"{colorama.Fore.BLUE}Block #{colorama.Fore.WHITE}{size} is invalid!"
+            coloured_bar = f"{colorama.Back.RED}{' ' * len(string)}"
+            print("")
+            print(coloured_bar)
+            print("")
+            print(string)
+            print("")
+            print(coloured_bar)
+            print("")
     else:
+        # Unreachable
         print("Failed to mine a block within 2^32+1 hashes.")
 
 def miner_loop(num_workers):
